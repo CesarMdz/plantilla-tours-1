@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Experiences | Plataforma de Tours Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0e7490',
+                        secondary: '#1e293b',
+                        accent: '#d97706',
+                        light: '#f8fafc',
+                        sand: '#d6d3d1',
+                        clay: '#a8a29e'
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .tour-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .tour-card {
+            transition: all 0.4s ease;
+        }
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        .fade-in {
+            animation: fadeIn 1.2s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .category-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            height: 280px;
+        }
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            padding: 1.5rem;
+            color: white;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0e7490 0%, #0891b2 100%);
+        }
+        .custom-shape {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        .partner-logo {
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .partner-logo:hover {
+            filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-light font-sans text-secondary">
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white backdrop-blur-sm transition-all duration-300 border-b border-sand">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="gradient-bg w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xl">O</div>
+                <h1 class="ml-3 text-2xl font-bold"><span class="text-primary"></span> Experiences</h1>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="font-medium hover:text-primary transition-colors">Inicio</a>
+                <a href="#categorias" class="font-medium hover:text-primary transition-colors">Categorías</a>
+                <a href="#tours" class="font-medium hover:text-primary transition-colors">Tours Destacados</a>
+                <a href="#empresas" class="font-medium hover:text-primary transition-colors">Empresas</a>
+                <a href="#faq" class="font-medium hover:text-primary transition-colors">Preguntas</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <button class="hidden md:block text-primary hover:bg-cyan-50 px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-user mr-2"></i>Operadores
+                </button>
+                <button class="gradient-bg text-white px-5 py-2 rounded-lg hover:opacity-90 transition-opacity shadow-md">
+                    <i class="fas fa-plus mr-2"></i>Publicar Tour
+                </button>
+                <button class="md:hidden text-secondary text-xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/40 to-cyan-900/40 z-10"></div>
+        <div class="parallax absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+        
+        <div class="container mx-auto px-4 relative z-20">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl md:text-6xl font-serif font-bold text-white leading-tight fade-in">
+                    La mejor selección de <span class="text-accent">tours</span> en 
+                </h1>
+                <p class="mt-6 text-xl text-white/90 max-w-xl fade-in delay-100">
+                    Conectamos viajeros con las mejores experiencias ofrecidas por operadores locales. Descubre  a través de expertos.
+                </p>
+                <div class="mt-10 flex flex-wrap gap-4 fade-in delay-200">
+                    <button class="bg-accent text-white px-8 py-4 rounded-lg hover:bg-amber-700 transition-colors font-medium shadow-md">
+                        Explorar Tours <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button class="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-lg hover:bg-white/30 transition-colors font-medium">
+                        <i class="fas fa-play-circle mr-2"></i>Ver Video
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-0 left-0 right-0 z-20 fade-in delay-300">
+            <div class="container mx-auto px-4 py-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <label class="text-sm font-medium text-gray-500">Tipo de Tour</label>
+                        <div class="flex items-center mt-2">
+                            <i class="fas fa-route text-primary mr-2"></i>
+                            <select class="w-full py-2 focus:outline-none bg-transparent">
+                                <option>Todas las categorías</option>
+                                <option>Playas</option>
+                                <option>Sierra y montañas</option>
+                                <option>Bosques y ríos</option>
+                                <option>Gastronomía</option>
+                               
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-500">Duración</label>
+                        <div class="flex items-center mt-2">
+                            <i class="fas fa-clock text-primary mr-2"></i>
+                            <select class="w-full py-2 focus:outline-none bg-transparent">
+                                <option>Cualquier duración</option>
+                                <option>Medio día</option>
+                                <option>1 día completo</option>
+                                <option>2+ días</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-500">Precio</label>
+                        <div class="flex items-center mt-2">
+                            <i class="fas fa-tag text-primary mr-2"></i>
+                            <select class="w-full py-2 focus:outline-none bg-transparent">
+                                <option>Todos los precios</option>
+                                <option>Económico ($)</option>
+                                <option>Moderado ($$)</option>
+                                <option>Premium ($$$)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex items-end">
+                        <button class="gradient-bg text-white w-full py-3 rounded-lg hover:opacity-90 transition-opacity">
+                            Buscar Tours
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categorías de Tours -->
+    <section id="categorias" class="py-20 bg-light">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold">Explora por <span class="text-primary">Categorías</span></h2>
+                <p class="mt-4 text-gray-600">
+                    Descubre la diversidad de  a través de nuestras categorías especializadas
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-16">
+                <!-- Categoría 1 -->
+                <a href="#" class="category-card tour-card">
+                    <img src="https://images.unsplash.com/photo-1605296830714-7b02d5a4b7d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <div class="category-overlay">
+                        <h3 class="text-xl font-bold">Playas</h3>
+                        <p class="mt-1">28 tours disponibles</p>
+                    </div>
+                </a>
+                
+                <!-- Categoría 2 -->
+                <a href="#" class="category-card tour-card">
+                    <img src="https://images.unsplash.com/photo-1615568998260-6a2a8e1a1a8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <div class="category-overlay">
+                        <h3 class="text-xl font-bold">Sierra y Montañas</h3>
+                        <p class="mt-1">19 tours disponibles</p>
+                    </div>
+                </a>
+                
+                <!-- Categoría 3 -->
+                <a href="#" class="category-card tour-card">
+                    <img src="https://images.unsplash.com/photo-1552561888-0c3e9acce54c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <div class="category-overlay">
+                        <h3 class="text-xl font-bold">Bosques y Ríos</h3>
+                        <p class="mt-1">15 tours disponibles</p>
+                    </div>
+                </a>
+
+                
+                <!-- Categoría 5 -->
+                <a href="#" class="category-card tour-card">
+                    <img src="https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <div class="category-overlay">
+                        <h3 class="text-xl font-bold">Arqueológico</h3>
+                        <p class="mt-1">12 tours disponibles</p>
+                    </div>
+                </a>
+                
+               
+            </div>
+        </div>
+    </section>
+
+    <!-- Tours Destacados -->
+    <section id="tours" class="py-20 bg-gradient-to-br from-sand/10 to-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold">Tours <span class="text-primary">Destacados</span></h2>
+                <p class="mt-4 text-gray-600">
+                    Las experiencias mejor valoradas por nuestros viajeros
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+                <!-- Tour 1 -->
+                <div class="tour-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-star mr-1"></i> 4.9
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-bold">Ruta del Mezcal Premium</h3>
+                                <div class="flex items-center mt-2 text-gray-600">
+                                    <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                    <span>Valles Centrales</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-2xl font-bold text-primary">$1,250</span>
+                                <p class="text-sm text-gray-500">por persona</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mt-4 text-gray-600">
+                            <i class="fas fa-clock text-primary mr-2"></i>
+                            <span>8 horas | Incluye transporte y degustación</span>
+                        </div>
+                        
+                        <div class="mt-6 flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-white shadow">
+                                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <span class="ml-2 text-gray-600">Operado por <strong>Mezcal Experts</strong></span>
+                            </div>
+                            <button class="text-primary hover:text-primary-dark transition-colors">
+                                <i class="fas fa-heart text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <button class="mt-6 w-full border border-primary text-primary py-3 rounded-lg font-medium hover:bg-primary/10 transition-colors">
+                            Ver detalles del tour
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tour 2 -->
+                <div class="tour-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1552561888-0c3e9acce54c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-star mr-1"></i> 4.8
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-bold">Exploración Arqueológica</h3>
+                                <div class="flex items-center mt-2 text-gray-600">
+                                    <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                    <span>Monte Albán & Mitla</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-2xl font-bold text-primary">$850</span>
+                                <p class="text-sm text-gray-500">por persona</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mt-4 text-gray-600">
+                            <i class="fas fa-clock text-primary mr-2"></i>
+                            <span>6 horas | Guía certificado</span>
+                        </div>
+                        
+                        <div class="mt-6 flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-white shadow">
+                                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <span class="ml-2 text-gray-600">Operado por <strong> Roots</strong></span>
+                            </div>
+                            <button class="text-gray-400 hover:text-primary transition-colors">
+                                <i class="far fa-heart text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <button class="mt-6 w-full border border-primary text-primary py-3 rounded-lg font-medium hover:bg-primary/10 transition-colors">
+                            Ver detalles del tour
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tour 3 -->
+                <div class="tour-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-star mr-1"></i> 5.0
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-bold">Aventura en la Sierra</h3>
+                                <div class="flex items-center mt-2 text-gray-600">
+                                    <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                    <span>Sierra Norte</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-2xl font-bold text-primary">$1,650</span>
+                                <p class="text-sm text-gray-500">por persona</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mt-4 text-gray-600">
+                            <i class="fas fa-clock text-primary mr-2"></i>
+                            <span>2 días | Todo incluido</span>
+                        </div>
+                        
+                        <div class="mt-6 flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-white shadow">
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <span class="ml-2 text-gray-600">Operado por <strong>Mountain Guides</strong></span>
+                            </div>
+                            <button class="text-gray-400 hover:text-primary transition-colors">
+                                <i class="far fa-heart text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <button class="mt-6 w-full border border-primary text-primary py-3 rounded-lg font-medium hover:bg-primary/10 transition-colors">
+                            Ver detalles del tour
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="gradient-bg text-white px-8 py-3 rounded-lg hover:opacity-90 transition-opacity font-medium shadow-md">
+                    Ver todos los tours
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Empresas Colaboradoras -->
+    <section id="empresas" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold">Empresas <span class="text-primary">Colaboradoras</span></h2>
+                <p class="mt-4 text-gray-600">
+                    Conectamos viajeros con los mejores operadores de tours en 
+                </p>
+            </div>
+            
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
+                <div class="flex justify-center">
+                    <div class="partner-logo bg-gray-100 rounded-xl p-6 w-40 h-40 flex items-center justify-center">
+                        <span class="font-bold text-gray-800 text-center text-lg"> Adventure Tours</span>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="partner-logo bg-gray-100 rounded-xl p-6 w-40 h-40 flex items-center justify-center">
+                        <span class="font-bold text-gray-800 text-center text-lg">Sierra Experience</span>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="partner-logo bg-gray-100 rounded-xl p-6 w-40 h-40 flex items-center justify-center">
+                        <span class="font-bold text-gray-800 text-center text-lg">Mezcal Route Experts</span>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="partner-logo bg-gray-100 rounded-xl p-6 w-40 h-40 flex items-center justify-center">
+                        <span class="font-bold text-gray-800 text-center text-lg">Cultural Roots </span>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="partner-logo bg-gray-100 rounded-xl p-6 w-40 h-40 flex items-center justify-center">
+                        <span class="font-bold text-gray-800 text-center text-lg">Coastal Discovery</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 bg-gradient-to-r from-primary to-cyan-600 rounded-3xl overflow-hidden">
+                <div class="p-12">
+                    <div class="max-w-3xl mx-auto text-center">
+                        <h2 class="text-3xl md:text-4xl font-serif font-bold text-white">
+                            ¿Eres operador de tours en ?
+                        </h2>
+                        <p class="mt-6 text-xl text-white/90">
+                            Únete a nuestra plataforma y llega a miles de viajeros cada mes
+                        </p>
+                        
+                        <div class="mt-10 flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                            <input type="email" placeholder="Tu correo electrónico" 
+                                   class="flex-grow px-6 py-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                            <button class="bg-white text-primary px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+                                Quiero unirme
+                            </button>
+                        </div>
+                        
+                        <p class="mt-6 text-white/70 text-sm">
+                            Sin costos iniciales - Comisión solo por ventas generadas
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preguntas Frecuentes -->
+    <section id="faq" class="py-20 bg-light">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold">Preguntas <span class="text-primary">Frecuentes</span></h2>
+                <p class="mt-4 text-gray-600">
+                    Resolvemos tus dudas sobre nuestra plataforma
+                </p>
+            </div>
+            
+            <div class="mt-16 max-w-3xl mx-auto">
+                <!-- Pregunta 1 -->
+                <div class="bg-white rounded-xl shadow-lg mb-6 overflow-hidden">
+                    <button class="accordion-toggle w-full text-left p-6 font-medium text-lg flex justify-between items-center">
+                        <span>¿Cómo funciona la reserva de tours?</span>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 text-gray-600">
+                            <p>Nuestro proceso es simple y seguro:</p>
+                            <ul class="mt-3 space-y-2 pl-5 list-disc">
+                                <li>Selecciona el tour que deseas reservar</li>
+                                <li>Elige fecha y número de participantes</li>
+                                <li>Realiza el pago seguro en nuestra plataforma</li>
+                                <li>Recibe confirmación inmediata con todos los detalles</li>
+                                <li>El operador se pondrá en contacto para coordinar detalles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 2 -->
+                <div class="bg-white rounded-xl shadow-lg mb-6 overflow-hidden">
+                    <button class="accordion-toggle w-full text-left p-6 font-medium text-lg flex justify-between items-center">
+                        <span>¿Qué sucede si necesito cancelar?</span>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 text-gray-600">
+                            <p>Nuestra política de cancelación es flexible:</p>
+                            <ul class="mt-3 space-y-2 pl-5 list-disc">
+                                <li>Cancelación con 72+ horas de anticipación: reembolso del 100%</li>
+                                <li>Cancelación con 24-72 horas de anticipación: reembolso del 50%</li>
+                                <li>Cancelaciones con menos de 24 horas: no son reembolsables</li>
+                                <li>En caso de condiciones climáticas adversas, reprogramamos sin costo</li>
+                                <li>Todas las cancelaciones deben hacerse a través de nuestra plataforma</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 3 -->
+                <div class="bg-white rounded-xl shadow-lg mb-6 overflow-hidden">
+                    <button class="accordion-toggle w-full text-left p-6 font-medium text-lg flex justify-between items-center">
+                        <span>¿Cómo puedo convertirme en operador asociado?</span>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 text-gray-600">
+                            <p>Para unirte como operador de tours:</p>
+                            <ul class="mt-3 space-y-2 pl-5 list-disc">
+                                <li>Regístrate como operador en nuestra plataforma</li>
+                                <li>Completa tu perfil con información de tu empresa</li>
+                                <li>Sube los tours que ofreces con descripciones detalladas</li>
+                                <li>Nuestro equipo revisará y aprobará tus tours</li>
+                                <li>Recibirás capacitación sobre el uso de la plataforma</li>
+                                <li>Cobraremos una comisión solo por las ventas generadas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 4 -->
+                <div class="bg-white rounded-xl shadow-lg mb-6 overflow-hidden">
+                    <button class="accordion-toggle w-full text-left p-6 font-medium text-lg flex justify-between items-center">
+                        <span>¿Cómo garantizan la calidad de los tours?</span>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 text-gray-600">
+                            <p>Mantenemos altos estándares de calidad:</p>
+                            <ul class="mt-3 space-y-2 pl-5 list-disc">
+                                <li>Todos los operadores son verificados y certificados</li>
+                                <li>Revisamos licencias y permisos necesarios</li>
+                                <li>Recolectamos y analizamos retroalimentación de viajeros</li>
+                                <li>Realizamos evaluaciones periódicas a los operadores</li>
+                                <li>Solo operadores con calificación promedio superior a 4.5/5 permanecen</li>
+                                <li>Resolución de problemas con nuestro equipo de soporte</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white pt-20 pb-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div>
+                    <div class="flex items-center">
+                        <div class="gradient-bg w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xl">O</div>
+                        <h2 class="ml-3 text-2xl font-bold"><span class="text-primary"></span> Experiences</h2>
+                    </div>
+                    <p class="mt-4 text-gray-400">
+                        La plataforma líder para descubrir y reservar experiencias auténticas en . Conectando viajeros con operadores locales de calidad.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="bg-primary/20 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-primary/20 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-primary/20 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-primary/20 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Para Viajeros</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Buscar Tours</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Destinos Populares</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Guía de </a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Ofertas Especiales</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Programa de Lealtad</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Opiniones</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Para Operadores</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Registrar Empresa</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Publicar Tours</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Tarifas</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Recursos</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Centro de Ayuda</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Blog para Operadores</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contacto</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">Av. Benito Juárez 909, Centro, </span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">+52 951 123 4567</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">info@experiences.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-headset text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">Soporte 24/7 para reservas</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-16 pt-8 text-center text-gray-500">
+                <p>&copy; 2023  Experiences. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animación para elementos al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(element => {
+                element.style.opacity = 0;
+                element.style.animationPlayState = 'paused';
+                observer.observe(element);
+            });
+            
+            // Efecto de header al hacer scroll
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('shadow-md');
+                } else {
+                    header.classList.remove('shadow-md');
+                }
+            });
+            
+            // Acordeón para FAQ
+            const accordionToggles = document.querySelectorAll('.accordion-toggle');
+            accordionToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
