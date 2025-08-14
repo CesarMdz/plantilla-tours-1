@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysium Tours | Viajes Excepcionales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0ea5e9',
+                        secondary: '#0f172a',
+                        accent: '#f97316',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .tour-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .tour-card {
+            transition: all 0.4s ease;
+        }
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .fade-in {
+            animation: fadeIn 1.2s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body class="bg-light font-sans text-secondary">
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white/90 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="bg-primary w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xl">E</div>
+                <h1 class="ml-3 text-2xl font-bold"><span class="text-primary">Elysium</span> Tours</h1>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="font-medium hover:text-primary transition-colors">Inicio</a>
+                <a href="#" class="font-medium hover:text-primary transition-colors">Tours</a>
+                <a href="#" class="font-medium hover:text-primary transition-colors">Destinos</a>
+                <a href="#" class="font-medium hover:text-primary transition-colors">Experiencias</a>
+                <a href="#" class="font-medium hover:text-primary transition-colors">Contacto</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <button class="hidden md:block text-primary hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-user mr-2"></i>Mi Cuenta
+                </button>
+                <button class="bg-primary text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20">
+                    <i class="fas fa-search mr-2"></i>Buscar Tours
+                </button>
+                <button class="md:hidden text-secondary text-xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center overflow-hidden">
+        <div class="absolute inset-0 bg-black/40 z-10"></div>
+        <div class="parallax absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+        
+        <div class="container mx-auto px-4 relative z-20">
+            <div class="max-w-2xl">
+                <h1 class="text-5xl md:text-7xl font-serif font-bold text-white leading-tight fade-in">
+                    Descubre el <span class="text-accent">mundo</span> con nosotros
+                </h1>
+                <p class="mt-6 text-xl text-white/90 max-w-lg fade-in delay-100">
+                    Experiencias únicas diseñadas para viajeros que buscan aventura, cultura y momentos inolvidables.
+                </p>
+                <div class="mt-10 flex flex-wrap gap-4 fade-in delay-200">
+                    <button class="bg-accent text-white px-8 py-4 rounded-lg hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/30 font-medium">
+                        Explorar Tours <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button class="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-lg hover:bg-white/30 transition-colors font-medium">
+                        <i class="fas fa-play-circle mr-2"></i>Ver Video
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-0 left-0 right-0 z-20 fade-in delay-300">
+            <div class="container mx-auto px-4 py-8">
+                <div class="bg-white rounded-xl shadow-xl p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <label class="text-sm font-medium text-gray-500">Destino</label>
+                        <div class="flex items-center mt-2">
+                            <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                            <input type="text" placeholder="¿A dónde vas?" class="w-full py-2 focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-500">Tipo de Tour</label>
+                        <div class="flex items-center mt-2">
+                            <i class="fas fa-route text-primary mr-2"></i>
+                            <select class="w-full py-2 focus:outline-none">
+                                <option>Aventura</option>
+                                <option>Cultural</option>
+                                <option>Relajación</option>
+                                <option>Lujo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-500">Fecha</label>
+                        <div class="flex items-center mt-2">
+                            <i class="fas fa-calendar text-primary mr-2"></i>
+                            <input type="text" placeholder="Seleccionar fecha" class="w-full py-2 focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="flex items-end">
+                        <button class="bg-primary text-white w-full py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                            Buscar Tours
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinos Populares -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold">Destinos <span class="text-primary">Populares</span></h2>
+                <p class="mt-4 text-gray-600">
+                    Explora nuestros destinos más solicitados por viajeros de todo el mundo. Cada lugar ofrece una experiencia única e inolvidable.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+                <!-- Destino 1 -->
+                <div class="tour-card relative rounded-2xl overflow-hidden shadow-lg group">
+                    <div class="h-96 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1543429776-2782fc586c3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                        <div>
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-2xl font-bold text-white">Santorini, Grecia</h3>
+                                <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">Nuevo</span>
+                            </div>
+                            <div class="flex items-center mt-2 text-white/80">
+                                <i class="fas fa-clock mr-2"></i>
+                                <span>7 días | Desde €1,299</span>
+                            </div>
+                        </div>
+                        <button class="mt-4 bg-white text-primary py-2 px-5 rounded-lg font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Ver Tour <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Destino 2 -->
+                <div class="tour-card relative rounded-2xl overflow-hidden shadow-lg group">
+                    <div class="h-96 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1534008897995-27a23e859048?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Kyoto, Japón</h3>
+                            <div class="flex items-center mt-2 text-white/80">
+                                <i class="fas fa-clock mr-2"></i>
+                                <span>10 días | Desde €2,450</span>
+                            </div>
+                        </div>
+                        <button class="mt-4 bg-white text-primary py-2 px-5 rounded-lg font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Ver Tour <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Destino 3 -->
+                <div class="tour-card relative rounded-2xl overflow-hidden shadow-lg group">
+                    <div class="h-96 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Machu Picchu, Perú</h3>
+                            <div class="flex items-center mt-2 text-white/80">
+                                <i class="fas fa-clock mr-2"></i>
+                                <span>12 días | Desde €1,899</span>
+                            </div>
+                        </div>
+                        <button class="mt-4 bg-white text-primary py-2 px-5 rounded-lg font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Ver Tour <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="border-2 border-primary text-primary px-8 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors font-medium">
+                    Ver todos los destinos
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experiencias Únicas -->
+    <section class="py-20 bg-gradient-to-br from-white to-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold">Experiencias <span class="text-primary">Exclusivas</span></h2>
+                <p class="mt-4 text-gray-600">
+                    Más que simples viajes, creamos momentos que perduran en la memoria para toda la vida.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-16">
+                <div class="flex flex-col justify-center">
+                    <div class="space-y-8">
+                        <div class="flex fade-in">
+                            <div class="bg-primary/10 p-4 rounded-xl w-14 h-14 flex items-center justify-center">
+                                <i class="fas fa-hiking text-2xl text-primary"></i>
+                            </div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-bold">Aventuras Personalizadas</h3>
+                                <p class="mt-2 text-gray-600">Tours diseñados a tu medida según tus intereses y ritmo.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex fade-in delay-100">
+                            <div class="bg-primary/10 p-4 rounded-xl w-14 h-14 flex items-center justify-center">
+                                <i class="fas fa-crown text-2xl text-primary"></i>
+                            </div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-bold">Acceso VIP</h3>
+                                <p class="mt-2 text-gray-600">Acceso a lugares exclusivos y experiencias no disponibles al público general.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex fade-in delay-200">
+                            <div class="bg-primary/10 p-4 rounded-xl w-14 h-14 flex items-center justify-center">
+                                <i class="fas fa-home text-2xl text-primary"></i>
+                            </div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-bold">Alojamientos Selectos</h3>
+                                <p class="mt-2 text-gray-600">Hoteles boutique y alojamientos con encanto cuidadosamente seleccionados.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex fade-in delay-300">
+                            <div class="bg-primary/10 p-4 rounded-xl w-14 h-14 flex items-center justify-center">
+                                <i class="fas fa-user-friends text-2xl text-primary"></i>
+                            </div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-bold">Grupos Reducidos</h3>
+                                <p class="mt-2 text-gray-600">Grupos pequeños para una experiencia más íntima y personalizada.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="relative h-full rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-xl p-6 w-2/3 floating">
+                        <div class="flex items-center">
+                            <div class="bg-primary/10 p-3 rounded-lg">
+                                <i class="fas fa-star text-accent text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-lg">Experiencia Premium</h4>
+                                <div class="flex mt-1">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <span class="ml-2 font-medium">5.0 (248 reseñas)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-4 text-gray-600">
+                            "El tour por la Toscana superó todas mis expectativas. Cada detalle estaba perfectamente organizado."
+                        </p>
+                        <div class="mt-4 flex items-center">
+                            <div class="w-10 h-10 rounded-full overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                     class="w-full h-full object-cover">
+                            </div>
+                            <div class="ml-3">
+                                <h5 class="font-bold">María López</h5>
+                                <p class="text-sm text-gray-500">Viajera frecuente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-black/70 z-0"></div>
+        <div class="parallax absolute inset-0 bg-cover bg-center z-0" style="background-image: url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-white">
+                    ¿Listo para tu próxima <span class="text-accent">aventura</span>?
+                </h2>
+                <p class="mt-6 text-xl text-white/90">
+                    Suscríbete a nuestro newsletter y recibe ofertas exclusivas y consejos de viaje.
+                </p>
+                
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                    <input type="email" placeholder="Tu correo electrónico" 
+                           class="flex-grow px-6 py-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                    <button class="bg-accent text-white px-8 py-4 rounded-lg hover:bg-orange-600 transition-colors font-medium">
+                        Suscribirse
+                    </button>
+                </div>
+                
+                <p class="mt-6 text-white/70 text-sm">
+                    Respetamos tu privacidad. Puedes darte de baja en cualquier momento.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white pt-20 pb-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div>
+                    <div class="flex items-center">
+                        <div class="bg-primary w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xl">E</div>
+                        <h2 class="ml-3 text-2xl font-bold"><span class="text-primary">Elysium</span> Tours</h2>
+                    </div>
+                    <p class="mt-4 text-gray-400">
+                        Creando experiencias de viaje inolvidables desde 2010. Más de 50,000 clientes satisfechos en todo el mundo.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="bg-primary/20 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-primary/20 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-primary/20 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-primary/20 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Enlaces Rápidos</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Sobre Nosotros</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Tours Populares</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Destinos</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Ofertas Especiales</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Blog de Viajes</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Contáctanos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Destinos</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Europa</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Asia</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">América</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">África</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Oceanía</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Expediciones</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contacto</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">Calle Viajeros 123, Madrid, España</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">+34 91 123 45 67</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">info@elysiumtours.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">Lun-Vie: 9:00 - 18:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-16 pt-8 text-center text-gray-500">
+                <p>&copy; 2023 Elysium Tours. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animación para elementos al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(element => {
+                element.style.opacity = 0;
+                element.style.animationPlayState = 'paused';
+                observer.observe(element);
+            });
+            
+            // Efecto de header al hacer scroll
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('shadow-md');
+                } else {
+                    header.classList.remove('shadow-md');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
