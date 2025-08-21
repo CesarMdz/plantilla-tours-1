@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Agencia de Tours • Explora sin límites</title>
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#0f172a',    // slate-900
+            body: '#1f2937',   // slate-800
+            mid:  '#64748b',   // slate-500
+            line: '#e5e7eb',   // gray-200
+            brand: { 
+              500: '#2E8B72',  // verde principal
+              600: '#1B5E4B',  // verde oscuro
+              400: '#3DAF8D',  // verde claro
+              300: '#70C9AE'   // verde suave
+            },
+            accent: '#F59E0B', // ámbar para acentos
+            highlight: '#EF4444' // rojo para destacados
+          },
+          fontFamily: {
+            sans: ['Manrope','Plus Jakarta Sans','Inter','system-ui','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif'],
+            display: ['Playfair Display', 'ui-serif', 'Georgia', 'serif']
+          },
+          container: {
+            center: true,
+            padding: { DEFAULT: '1rem', md: '1.25rem', lg: '1.5rem' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Swiper (brands & testimonios) -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css"/>
+
+  <!-- Alpine.js -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  
+  <!-- Iconos & efectos extra -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <style>
+    /* Utilidades suaves y neutrales */
+    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .line-clamp-3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+    /* Efecto underline animado para links */
+    .u-underline{position:relative}
+    .u-underline::after{
+      content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:currentColor;transition:width .25s ease
+    }
+    .u-underline:hover::after{width:100%}
+
+    /* Parallax suave (imagen del hero) */
+    .parallax-bg{
+      background-size:cover;background-position:center;background-repeat:no-repeat;
+      transform:translate3d(0,0,0); will-change:transform;
+    }
+
+    /* Scroll-snap banner row */
+    .snap-x{scroll-snap-type:x mandatory}
+    .snap-start{scroll-snap-align:start}
+    .no-scrollbar::-webkit-scrollbar{display:none}
+    .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+
+    /* Hover lift minimal (sin sombras) */
+    .lift:hover{transform:translateY(-4px)}
+    .t-300{transition:all .3s ease}
+
+    /* Hero chips row */
+    .chip-row{display:flex;gap:.5rem;flex-wrap:wrap}
+    .chip-link{border:1px solid #e5e7eb;border-radius:9999px;padding:.375rem .75rem;font-size:.8125rem;color:#334155;background:#fff}
+
+    /* Sutiles overlays para textos sobre imagen */
+    .gradient-soft{background:linear-gradient(to top, rgba(0,0,0,.38), rgba(0,0,0,.06), transparent)}
+
+    /* Mosaic grid helpers (no dependencias Tailwind) */
+    .mosaic{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:1rem}
+    @media (max-width:1024px){.mosaic{grid-template-columns:repeat(8,minmax(0,1fr))}}
+    @media (max-width:640px){.mosaic{grid-template-columns:repeat(4,minmax(0,1fr))}}
+    .span-3{grid-column:span 3/span 3}.span-4{grid-column:span 4/span 4}.span-5{grid-column:span 5/span 5}.span-6{grid-column:span 6/span 6}.span-8{grid-column:span 8/span 8}.span-12{grid-column:span 12/span 12}
+    .row-24{grid-row:span 24/span 24}.row-18{grid-row:span 18/span 18}.row-12{grid-row:span 12/span 12}.row-10{grid-row:span 10/span 10}
+    .auto-rows{grid-auto-rows:8px}
+
+    /* Cards */
+    .card{border:1px solid #e5e7eb;border-radius:1rem;overflow:hidden;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.05);}
+    .card:hover .zoom img{transform:scale(1.03)}
+    .zoom img{transition:transform .6s ease}
+    .tag{border:1px solid #e5e7eb;border-radius:9999px;padding:.25rem .625rem;font-size:.75rem;background:#fff}
+
+    /* Icon bullets */
+    .i-bullet{display:flex;gap:.75rem;align-items:flex-start}
+    .i-bullet i{color:#0f172a;margin-top:.15rem}
+
+    /* Divisor sutil y ribbon */
+    .divider{height:1px;background:linear-gradient(90deg,transparent,#e5e7eb,transparent)}
+    .ribbon{position:relative;overflow:hidden}
+    .ribbon::before{content:"";position:absolute;inset:0;background:radial-gradient(1200px 400px at 10% -10%,#e6f6f0,transparent 60%),radial-gradient(900px 300px at 100% 10%,#eef2ff,transparent 60%);opacity:.6;pointer-events:none}
+
+    /* FAQ arrows */
+    .faq-q[aria-expanded="true"] .fa-chevron-down{transform:rotate(180deg)}
+    .faq-q .fa-chevron-down{transition:transform .25s ease}
+
+    /* Overlay suave para texto sobre imagen */
+    .gradient-soft{background:linear-gradient(to top, rgba(0,0,0,.38), rgba(0,0,0,.06), transparent)}
+
+    /* --- Extra effects & banners --- */
+    .kenburns img{transform:scale(1.02);transition:transform 6s ease}
+    .kenburns:hover img{transform:scale(1.08)}
+    .tilt{transition:transform .35s ease}
+    .tilt:hover{transform:translateY(-4px) rotateX(1deg) rotateY(-1deg)}
+    .shine{position:relative;overflow:hidden}
+    .shine::after{content:"";position:absolute;top:-100%;left:-30%;width:60%;height:300%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);transform:rotate(25deg);transition:transform .8s ease;pointer-events:none}
+    .shine:hover::after{transform:translateX(140%) rotate(25deg)}
+    .full-bleed{width:100vw;margin-left:50%;transform:translateX(-50%)}
+    .banner-overlay{background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.05) 40%,transparent)}
+    .badge-float{position:absolute;top:1rem;right:1rem;background:#fff;border:1px solid #e5e7eb;border-radius:9999px;padding:.375rem .625rem;font-size:.75rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+    
+    /* section spacing tighter on banners */
+    .section-bleed{padding-top:3.5rem;padding-bottom:3.5rem}
+    @media (min-width:1024px){.section-bleed{padding-top:5rem;padding-bottom:5rem}}
+    
+    /* Nuevos estilos para mejoras */
+    .btn-primary {
+      background-color: #2E8B72;
+      color: white;
+      border-radius: 9999px;
+      padding: 0.75rem 1.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(46, 139, 114, 0.2);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .btn-primary:hover {
+      background-color: #1B5E4B;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(46, 139, 114, 0.3);
+    }
+    
+    .btn-secondary {
+      background-color: white;
+      color: #2E8B72;
+      border: 2px solid #2E8B72;
+      border-radius: 9999px;
+      padding: 0.75rem 1.5rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #f0fdfa;
+      transform: translateY(-2px);
+    }
+    
+    .highlight-badge {
+      background-color: #EF4444;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 10;
+    }
+    
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 50%;
+      height: 3px;
+      background: linear-gradient(90deg, #2E8B72, #3DAF8D);
+      border-radius: 9999px;
+    }
+    
+    .feature-card {
+      background: white;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      border: 1px solid #e5e7eb;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .testimonial-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      position: relative;
+      border: 1px solid #e5e7eb;
+    }
+    
+    .testimonial-card::before {
+      content: """;
+      position: absolute;
+      top: -1.5rem;
+      left: 1.5rem;
+      font-size: 5rem;
+      color: #3DAF8D;
+      opacity: 0.2;
+      font-family: serif;
+      line-height: 1;
+    }
+    
+    .cta-banner {
+      background: linear-gradient(135deg, #2E8B72, #3DAF8D);
+      border-radius: 1.5rem;
+      padding: 3rem;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-banner::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      z-index: 0;
+    }
+    
+    .cta-banner-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .gradient-border {
+      position: relative;
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+    
+    .gradient-border::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #2E8B72, #3DAF8D);
+      z-index: -1;
+      border-radius: 1rem;
+    }
+    
+    /* Nuevos estilos para el hero */
+    .hero-section {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      max-height: 900px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .hero-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+      z-index: 0;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      padding: 0 2rem;
+    }
+    
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-search {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 9999px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    .hero-search input {
+      flex: 1;
+      border: none;
+      padding: 1.25rem 1.5rem;
+      font-size: 1rem;
+      outline: none;
+    }
+    
+    .hero-search button {
+      background: #2E8B72;
+      color: white;
+      border: none;
+      padding: 0 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .hero-search button:hover {
+      background: #1B5E4B;
+    }
+    
+    .hero-trends {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .trend-chip {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 9999px;
+      padding: 0.5rem 1.25rem;
+      color: white;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .trend-chip:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+    
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+      40% {transform: translateY(-20px) translateX(-50%);}
+      60% {transform: translateY(-10px) translateX(-50%);}
+    }
+    
+    .scroll-indicator span {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    /* Nuevos estilos para el header */
+    .header-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .header-nav.scrolled {
+      background: rgba(255,255,255,0.98);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 0;
+      font-weight: 500;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #2E8B72;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-out;
+    }
+    
+    .mobile-menu.open {
+      max-height: 500px;
+    }
+    
+    /* Nuevo estilo para tours interactivos */
+    .tour-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.5rem;
+      height: 350px;
+      transition: all 0.4s ease;
+    }
+    
+    .tour-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+    }
+    
+    .tour-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      color: white;
+      transform: translateY(0);
+      transition: transform 0.4s ease;
+    }
+    
+    .tour-card:hover .tour-overlay {
+      transform: translateY(-10px);
+    }
+    
+    .tour-price {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: #2E8B72;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    
+    /* Animaciones personalizadas */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .fade-in.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .rotate {
+      animation: rotate 8s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body class="bg-white text-body font-sans antialiased">
+  <!-- Header mejorado -->
+  <header x-data="{open: false, scrolled: false}" class="header-nav" :class="{'scrolled': scrolled}">
+    <div class="container py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <div class="w-10 h-10 rounded-full bg-brand-500 flex items-center justify-center">
+            <i class="fa-solid fa-mountain-sun text-white"></i>
+          </div>
+          <span class="ml-3 font-display text-xl font-bold text-brand-600">Aventuris</span>
+        </div>
+        
+        <nav class="hidden lg:flex items-center gap-8">
+          <a href="#" class="nav-link">Inicio</a>
+          <a href="#tendencias" class="nav-link">Destinos</a>
+          <a href="#tours" class="nav-link">Tours</a>
+          <a href="#porque" class="nav-link">Beneficios</a>
+          <a href="#testimonios" class="nav-link">Testimonios</a>
+          <a href="#" class="btn-primary">Reservar</a>
+        </nav>
+        
+        <div class="lg:hidden">
+          <button @click="open = !open" class="p-2">
+            <i class="fa-solid fa-bars text-2xl text-brand-500"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Mobile menu -->
+      <div x-cloak x-show="open" class="mobile-menu" :class="{'open': open}">
+        <div class="py-4 flex flex-col gap-4">
+          <a href="#" class="nav-link py-2">Inicio</a>
+          <a href="#tendencias" class="nav-link py-2">Destinos</a>
+          <a href="#tours" class="nav-link py-2">Tours</a>
+          <a href="#porque" class="nav-link py-2">Beneficios</a>
+          <a href="#testimonios" class="nav-link py-2">Testimonios</a>
+          <a href="#" class="btn-primary mt-2 w-full text-center">Reservar</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero section mejorado -->
+  <section class="hero-section">
+    <video autoplay muted loop class="hero-video">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-beautiful-tropical-beach-4258-large.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content">
+      <h1 class="hero-title animate__animated animate__fadeInDown">
+        Descubre el mundo con <span class="text-brand-400">experiencias únicas</span>
+      </h1>
+      <p class="hero-subtitle animate__animated animate__fadeIn animate__delay-1s">
+        Explora destinos increíbles con guías locales y operadores certificados
+      </p>
+      
+      <div class="hero-search animate__animated animate__fadeInUp animate__delay-1s">
+        <input type="text" placeholder="¿A dónde quieres viajar?">
+        <button>
+          <i class="fa-solid fa-magnifying-glass"></i> Buscar
+        </button>
+      </div>
+      
+      <div class="hero-trends animate__animated animate__fadeInUp animate__delay-1-5s">
+        <div class="trend-chip">Cascadas</div>
+        <div class="trend-chip">Playas paradisíacas</div>
+        <div class="trend-chip">Pueblos mágicos</div>
+        <div class="trend-chip">Aventura en montaña</div>
+      </div>
+    </div>
+    
+    <div class="scroll-indicator animate__animated animate__fadeIn animate__delay-2s">
+      <i class="fa-solid fa-chevron-down"></i>
+      <span>Explorar</span>
+    </div>
+  </section>
+
+  <!-- Beneficios mejorados -->
+  <section id="porque" class="container py-16">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <h2 class="section-title">¿Por qué elegirnos?</h2>
+      <p class="text-mid mt-4">Ofrecemos la mejor experiencia para tus viajes con operadores verificados y servicios premium</p>
+    </div>
+    
+    <div class="grid md:grid-cols-4 gap-6">
+      <div class="feature-card fade-in">
+        <div class="p-6 i-bullet">
+          <div class="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center text-brand-500">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div class="ml-4">
+            <h3 class="font-medium text-lg">Pagos seguros</h3>
+            <p class="text-sm text-mid mt-2">Procesamiento cifrado y políticas claras.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="feature-card fade-in">
+        <div class="p-6 i-bullet">
+          <div class="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center text-brand-500">
+            <i class="fa-solid fa-people-group"></i>
+          </div>
+          <div class="ml-4">
+            <h3 class="font-medium text-lg">Guías locales</h3>
+            <p class="text-sm text-mid mt-2">Operadores certificados con experiencia.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="feature-card fade-in">
+        <div class="p-6 i-bullet">
+          <div class="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center text-brand-500">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div class="ml-4">
+            <h3 class="font-medium text-lg">4.8⭐ promedio</h3>
+            <p class="text-sm text-mid mt-2">Miles de viajeros satisfechos.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="feature-card fade-in">
+        <div class="p-6 i-bullet">
+          <div class="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center text-brand-500">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <div class="ml-4">
+            <h3 class="font-medium text-lg">Soporte 24/7</h3>
+            <p class="text-sm text-mid mt-2">Atención en ES/EN en todo momento.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Banner editorial mejorado -->
+  <section class="relative full-bleed section-bleed kenburns mt-12">
+    <div class="absolute inset-0 -z-10">
+      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=2000&q=60" class="w-full h-full object-cover" alt="Selva y ríos" />
+      <div class="absolute inset-0 banner-overlay"></div>
+    </div>
+    <div class="container text-white">
+      <div class="max-w-2xl bg-black/30 backdrop-blur-sm rounded-2xl p-8 fade-in">
+        <span class="inline-flex items-center rounded-full border border-white/50 px-3 py-1 text-sm tracking-wide mb-3 bg-brand-500/80">NUEVA TEMPORADA</span>
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight">Explora rutas verdes y experiencias sustentables</h2>
+        <p class="mt-3 text-white/90 text-lg">Cuidamos cada detalle para reducir nuestra huella y amplificar la tuya.</p>
+        <div class="mt-6 flex gap-3">
+          <a href="#tours" class="btn-primary bg-white text-brand-500 hover:bg-gray-100">Ver tours</a>
+          <a href="#categorias" class="btn-secondary text-white border-white hover:bg-white/10">Categorías</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Destinos en tendencia mejorados -->
+  <section id="tendencias" class="container py-16">
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <h2 class="section-title">Destinos en tendencia</h2>
+        <p class="text-mid mt-2">Colección editorial con las mejores experiencias del momento</p>
+      </div>
+      <a href="#explorar" class="btn-secondary hidden sm:inline-flex">
+        <i class="fa-solid fa-arrow-right"></i> Ver más
+      </a>
+    </div>
+
+    <!-- Grid más uniforme: 12 columnas -->
+    <div class="grid grid-cols-12 gap-4">
+      <!-- FEATURE grande (4/3) -->
+      <a href="#explorar" class="card relative overflow-hidden col-span-12 lg:col-span-7 group zoom fade-in">
+        <div class="aspect-[4/3] w-full">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=60" class="w-full h-full object-cover" alt="Costa">
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-5 text-white gradient-soft">
+          <div class="text-xs opacity-90">Costa</div>
+          <h3 class="text-2xl sm:text-3xl font-bold">Playas &amp; atardeceres</h3>
+          <div class="mt-2 flex items-center gap-2">
+            <span class="text-xs bg-brand-500 px-2 py-1 rounded">Recomendado</span>
+            <span class="text-xs">Desde $1,200 MXN</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Lateral derecho: dos tarjetas iguales (16/9) apiladas -->
+      <div class="col-span-12 lg:col-span-5 grid grid-cols-1 gap-4">
+        <a href="#explorar" class="card relative overflow-hidden group zoom fade-in">
+          <div class="aspect-[16/9] w-full">
+            <img src="https://images.unsplash.com/photo-1517821366159-4089df011868?auto=format&fit=crop&w=1200&q=60" class="w-full h-full object-cover" alt="Cascadas">
+          </div>
+          <div class="absolute inset-x-0 bottom-0 p-4 text-white gradient-soft">
+            <h4 class="text-lg font-semibold">Cascadas</h4>
+            <p class="text-xs mt-1">Aventura en la naturaleza</p>
+          </div>
+        </a>
+
+        <a href="#explorar" class="card relative overflow-hidden group zoom fade-in">
+          <div class="aspect-[16/9] w-full">
+            <img src="https://images.unsplash.com/photo-1549888834-3ec93abae044?auto=format&fit=crop&w=1200&q=60" class="w-full h-full object-cover" alt="Pueblos mágicos">
+          </div>
+          <div class="absolute inset-x-0 bottom-0 p-4 text-white gradient-soft">
+            <h4 class="text-lg font-semibold">Pueblos mágicos</h4>
+            <p class="text-xs mt-1">Cultura y tradiciones</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Fila inferior: 4 tarjetas iguales (4/3) -->
+      <a href="#explorar" class="card relative overflow-hidden col-span-12 sm:col-span-6 lg:col-span-3 group zoom fade-in">
+        <div class="aspect-[4/3] w-full">
+          <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1200&q=60" class="w-full h-full object-cover" alt="Montaña">
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-4 text-white gradient-soft">
+          <h4 class="text-xl font-semibold">Montaña</h4>
+          <p class="text-xs mt-1">Aire puro y vistas impresionantes</p>
+        </div>
+      </a>
+
+      <a href="#explorar" class="card relative overflow-hidden col-span-12 sm:col-span-6 lg:col-span-3 group zoom fade-in">
+        <div class="aspect-[4/3] w-full">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=60" class="w-full h-full object-cover" alt="Cultura & historia">
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-4 text-white gradient-soft">
+          <h4 class="text-xl font-semibold">Cultura &amp; historia</h4>
+          <p class="text-xs mt-1">Raíces y tradiciones vivas</p>
+        </div>
+      </a>
+
+      <a href="#explorar" class="card relative overflow-hidden col-span-12 sm:col-span-6 lg:col-span-3 group zoom fade-in">
+        <div class="aspect-[4/3] w-full">
+          <img src="https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=1200&q=60" class="w-full h-full object-cover" alt="Gastronomía">
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-4 text-white gradient-soft">
+          <h4 class="text-xl font-semibold">Gastronomía</h4>
+          <p class="text-xs mt-1">Sabores auténticos</p>
+        </div>
+      </a>
+
+      <a href="#explorar" class="card relative overflow-hidden col-span-12 sm:col-span-6 lg:col-span-3 group zoom fade-in">
+        <div class="aspect-[4/3] w-full">
+          <img src="https://images.unsplash.com/photo-1500534314209-46b2b8c7f7f1?auto=format&fit=crop&w=1200&q=60" class="w-full h-full object-cover" alt="Ciudades">
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-4 text-white gradient-soft">
+          <h4 class="text-xl font-semibold">Ciudades</h4>
+          <p class="text-xs mt-1">Vida urbana y energía</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Promociones destacadas -->
+  <section class="container py-12">
+    <div class="cta-banner pulse">
+      <div class="cta-banner-content">
+        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4">¡Oferta Especial!</h2>
+        <p class="text-xl opacity-90 mb-6">Reserva antes del 30 de junio y obtén un 15% de descuento en todos los tours de aventura</p>
+        <div class="flex gap-4">
+          <a href="#tours" class="btn-primary bg-white text-brand-500 hover:bg-gray-100">Aprovechar oferta</a>
+          <a href="#categorias" class="btn-secondary text-white border-white hover:bg-white/10">Ver categorías</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tours destacados mejorados -->
+  <section id="tours" class="container py-16 bg-gray-50 rounded-2xl mt-12">
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <h2 class="section-title">Tours destacados</h2>
+        <p class="text-mid mt-2">Selección curada de experiencias populares</p>
+      </div>
+      <a href="#" class="btn-secondary hidden sm:inline-flex">
+        <i class="fa-solid fa-arrow-right"></i> Ver más
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card tour mejorada -->
+      <article class="feature-card group fade-in">
+        <div class="relative">
+          <img class="h-56 w-full object-cover transform group-hover:scale-[1.02] transition"
+               src="https://images.unsplash.com/photo-1517821366159-4089df011868?auto=format&fit=crop&w=1200&q=60" alt="Tour 1">
+          <div class="absolute top-3 left-3 bg-white/90 text-body text-xs px-2 py-1 rounded-full border border-line">3 días</div>
+          <div class="absolute top-3 right-3 bg-brand-500 text-white text-xs px-2 py-1 rounded-full">-15%</div>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold line-clamp-2">Aventura en la Sierra — Cascadas & Senderismo</h3>
+              <div class="flex items-center mt-2 text-mid text-sm">
+                <i class="fa-solid fa-map-marker-alt text-brand-500 mr-1"></i>
+                <span>Oaxaca, México</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 text-amber-500">
+              <i class="fa-solid fa-star"></i>
+              <span class="text-sm font-medium">4.8</span>
+            </div>
+          </div>
+          <p class="text-mid text-sm line-clamp-3 mt-3">Explora rutas panorámicas, pueblos mágicos y gastronomía regional.</p>
+          <div class="mt-4 flex items-center justify-between">
+            <div>
+              <span class="text-body font-bold text-lg">$2,950</span>
+              <span class="text-mid text-sm line-through ml-1">$3,450</span>
+            </div>
+            <a href="#" class="btn-primary text-sm px-4 py-2">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-card group fade-in">
+        <div class="relative">
+          <img class="h-56 w-full object-cover transform group-hover:scale-[1.02] transition"
+               src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=60" alt="Tour 2">
+          <div class="absolute top-3 left-3 bg-white/90 text-body text-xs px-2 py-1 rounded-full border border-line">1 día</div>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold line-clamp-2">Ruta del Mezcal & Pueblos Artesanales</h3>
+              <div class="flex items-center mt-2 text-mid text-sm">
+                <i class="fa-solid fa-map-marker-alt text-brand-500 mr-1"></i>
+                <span>Oaxaca, México</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 text-amber-500">
+              <i class="fa-solid fa-star"></i>
+              <span class="text-sm font-medium">4.9</span>
+            </div>
+          </div>
+          <p class="text-mid text-sm line-clamp-3 mt-3">Catas, talleres y tradiciones vivas con maestros locales.</p>
+          <div class="mt-4 flex items-center justify-between">
+            <span class="text-body font-bold text-lg">$1,200</span>
+            <a href="#" class="btn-primary text-sm px-4 py-2">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-card group fade-in">
+        <div class="relative">
+          <img class="h-56 w-full object-cover transform group-hover:scale-[1.02] transition"
+               src="https://images.unsplash.com/photo-1549888834-3ec93abae044?auto=format&fit=crop&w=1200&q=60" alt="Tour 3">
+          <div class="absolute top-3 left-3 bg-white/90 text-body text-xs px-2 py-1 rounded-full border border-line">2 días</div>
+          <div class="absolute top-3 right-3 bg-accent text-white text-xs px-2 py-1 rounded-full">Popular</div>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold line-clamp-2">Costa Escondida — Playas & Atardeceres</h3>
+              <div class="flex items-center mt-2 text-mid text-sm">
+                <i class="fa-solid fa-map-marker-alt text-brand-500 mr-1"></i>
+                <span>Oaxaca, México</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 text-amber-500">
+              <i class="fa-solid fa-star"></i>
+              <span class="text-sm font-medium">4.7</span>
+            </div>
+          </div>
+          <p class="text-mid text-sm line-clamp-3 mt-3">Relájate y disfruta de mar turquesa, delfines y tortugas.</p>
+          <div class="mt-4 flex items-center justify-between">
+            <span class="text-body font-bold text-lg">$2,100</span>
+            <a href="#" class="btn-primary text-sm px-4 py-2">Reservar</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Testimonios mejorados -->
+  <section id="testimonios" class="container py-16">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <h2 class="section-title">Lo que opinan nuestros viajeros</h2>
+      <p class="text-mid mt-4">Experiencias reales de quienes ya han vivido la aventura</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="testimonial-card fade-in">
+        <div class="flex items-center mb-4">
+          <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
+            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Ana R." class="w-full h-full object-cover">
+          </div>
+          <div class="ml-3">
+            <h4 class="font-bold">Ana R.</h4>
+            <div class="flex items-center gap-1 text-amber-500 text-sm">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-body">“Una experiencia inolvidable, organización impecable y guías súper atentos. Todo superó mis expectativas.”</p>
+        <div class="mt-4 text-sm text-mid">
+          Tour: Aventura en la Sierra
+        </div>
+      </div>
+      
+      <div class="testimonial-card fade-in">
+        <div class="flex items-center mb-4">
+          <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Daniel M." class="w-full h-full object-cover">
+          </div>
+          <div class="ml-3">
+            <h4 class="font-bold">Daniel M.</h4>
+            <div class="flex items-center gap-1 text-amber-500 text-sm">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-body">“Reservar fue muy fácil. Los paisajes y actividades superaron mis expectativas. Sin duda repetiré con ustedes.”</p>
+        <div class="mt-4 text-sm text-mid">
+          Tour: Ruta del Mezcal
+        </div>
+      </div>
+      
+      <div class="testimonial-card fade-in">
+        <div class="flex items-center mb-4">
+          <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
+            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Sofía L." class="w-full h-full object-cover">
+          </div>
+          <div class="ml-3">
+            <h4 class="font-bold">Sofía L.</h4>
+            <div class="flex items-center gap-1 text-amber-500 text-sm">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-body">“Excelente atención y experiencias auténticas. Los guías locales hicieron toda la diferencia. ¡Volveré!”</p>
+        <div class="mt-4 text-sm text-mid">
+          Tour: Costa Escondida
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final mejorado -->
+  <section class="cta-banner my-16">
+    <div class="container py-16 text-center">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-6">¿Listo para tu próxima aventura?</h2>
+        <p class="text-xl opacity-90 mb-8">Encuentra experiencias únicas con operadores locales certificados.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#tours" class="btn-primary animate__animated animate__pulse animate__infinite">
+            <i class="fa-solid fa-compass"></i> Explorar ahora
+          </a>
+          <a href="#contacto" class="btn-secondary text-white border-white hover:bg-white/10">
+            <i class="fa-solid fa-headset"></i> Contactar
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer mejorado -->
+  <footer class="bg-gray-50 border-t border-line pt-12">
+    <div class="container py-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center">
+            <i class="fa-solid fa-mountain-sun text-white"></i>
+          </div>
+          <span class="font-display text-lg font-bold text-brand-600">Aventuris</span>
+        </div>
+        <p class="text-mid text-sm mt-3">Hacemos simple tu próxima aventura. Conectamos viajeros con experiencias auténticas.</p>
+        <div class="flex gap-4 mt-4">
+          <a href="#" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-brand-500 hover:text-white">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-brand-500 hover:text-white">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-brand-500 hover:text-white">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </div>
+      </div>
+      <div>
+        <p class="font-bold mb-3 text-lg">Tours</p>
+        <ul class="space-y-2 text-sm text-mid">
+          <li><a href="#" class="hover:text-brand-500 u-underline">Locales</a></li>
+          <li><a href="#" class="hover:text-brand-500 u-underline">Nacionales</a></li>
+          <li><a href="#" class="hover:text-brand-500 u-underline">Internacionales</a></li>
+          <li><a href="#" class="hover:text-brand-500 u-underline">Aventura</a></li>
+          <li><a href="#" class="hover:text-brand-500 u-underline">Cultura</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-bold mb-3 text-lg">Empresa</p>
+        <ul class="space-y-2 text-sm text-mid">
+          <li><a href="#" class="hover:text-brand-500 u-underline">Sobre nosotros</a></li>
+          <li><a href="#" class="hover:text-brand-500 u-underline">Blog</a></li>
+          <li><a href="#" class="hover:text-brand-500 u-underline">Trabaja con nosotros</a></li>
+          <li><a href="#" class="hover:text-brand-500 u-underline">Operadores</a></li>
+          <li><a href="#" class="hover:text-brand-500 u-underline">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-bold mb-3 text-lg">Suscríbete</p>
+        <p class="text-sm text-mid mb-3">Recibe nuestras mejores ofertas y novedades</p>
+        <form class="flex gap-2">
+          <input type="email" placeholder="Tu correo" class="w-full rounded-lg border border-line px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"/>
+          <button class="btn-primary text-sm px-4 py-2.5">OK</button>
+        </form>
+      </div>
+    </div>
+    <div class="border-t border-line text-sm text-mid py-6 mt-6">
+      <div class="container flex flex-col md:flex-row items-center justify-between gap-4">
+        <span>© 2025 Aventuris. Todos los derechos reservados.</span>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-brand-500 u-underline">Términos</a>
+          <a href="#" class="hover:text-brand-500 u-underline">Privacidad</a>
+          <a href="#" class="hover:text-brand-500 u-underline">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Swiper + Animaciones GSAP -->
+  <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    // Inicialización de Swiper
+    const brandsSwiper = new Swiper('.brandsSwiper', {
+      slidesPerView: 2,
+      spaceBetween: 28,
+      loop: true,
+      autoplay: { delay: 2200, disableOnInteraction: false },
+      breakpoints: { 
+        640: { slidesPerView: 3 },
+        768: { slidesPerView: 4 },
+        1024: { slidesPerView: 5 }
+      }
+    });
+
+    // Animaciones básicas con GSAP
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Animación para elementos con clase "reveal"
+    gsap.utils.toArray('.reveal').forEach((el) => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 85%' }
+        }
+      );
+    });
+    
+    // Animación para títulos de sección
+    gsap.utils.toArray('.section-title').forEach((title) => {
+      gsap.fromTo(title,
+        { opacity: 0, x: -20 },
+        {
+          opacity: 1, x: 0, duration: 0.8, ease: 'power2.out',
+          scrollTrigger: { trigger: title, start: 'top 90%' }
+        }
+      );
+    });
+    
+    // Animación para tarjetas de características
+    gsap.utils.toArray('.feature-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0, duration: 0.6, delay: i * 0.1, ease: 'power2.out',
+          scrollTrigger: { trigger: card, start: 'top 85%' }
+        }
+      );
+    });
+    
+    // Animación para botones primarios
+    gsap.utils.toArray('.btn-primary').forEach((btn) => {
+      btn.addEventListener('mouseenter', () => {
+        gsap.to(btn, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { scale: 1, duration: 0.3, ease: 'power2.out' });
+      });
+    });
+    
+    // Animación para imágenes de tours
+    gsap.utils.toArray('.zoom').forEach((img) => {
+      img.addEventListener('mouseenter', () => {
+        gsap.to(img.querySelector('img'), { scale: 1.05, duration: 0.5, ease: 'power2.out' });
+      });
+      img.addEventListener('mouseleave', () => {
+        gsap.to(img.querySelector('img'), { scale: 1, duration: 0.5, ease: 'power2.out' });
+      });
+    });
+    
+    // Observador para animaciones de aparición
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    fadeElements.forEach(element => {
+      observer.observe(element);
+    });
+    
+    // Control de scroll para el header
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('.header-nav');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+    
+    // Animación para el botón de menú móvil
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function() {
+        document.querySelector('[x-data]').__x.$data.open = false;
+      });
+    });
+    
+    // Animación para el indicador de scroll
+    gsap.to('.scroll-indicator', {
+      opacity: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: '.hero-section',
+        start: 'top top',
+        end: 'bottom 30%',
+        scrub: true
+      }
+    });
+  </script>
+</body>
+</html>
